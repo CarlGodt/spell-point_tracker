@@ -9,6 +9,7 @@ import {
   NavbarEnd
 } from 'bloomer';
 import './navigation.scss';
+import { Link } from 'react-router-dom';
 
 const Navigation: FunctionComponent = () => {
   const [isActive, setActive] = useState<boolean>(false);
@@ -21,12 +22,13 @@ const Navigation: FunctionComponent = () => {
     <Navbar className="has-shadow">
       <Container>
         <NavbarBrand>
-          <NavbarItem>Spellpoint Tracker</NavbarItem>
+          <NavbarItem><Link to="/">Spellpoint Tracker</Link></NavbarItem>
           <NavbarBurger isActive={isActive} onClick={toggleActive} />
         </NavbarBrand>
         <NavbarMenu isActive={isActive} className="navMenu has-background-grey-dark">
           <NavbarEnd>
-            <NavbarItem>Create Character</NavbarItem>
+            <NavbarItem><Link to="/">Character List</Link></NavbarItem>
+            <NavbarItem><Link to="create">Create Character</Link></NavbarItem>
             <NavbarItem>Exit</NavbarItem>
           </NavbarEnd>
         </NavbarMenu>
