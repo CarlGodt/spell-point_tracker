@@ -1,7 +1,12 @@
-import { $Entity } from "../../infrastructure/persistence/repository";
+import { Entity } from "../../infrastructure/persistence/repository";
 
-interface $Character extends $Entity {
+class Character extends Entity {
   name: string;
+
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
 }
 
-export default $Character;
+export default Character;

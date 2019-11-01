@@ -1,7 +1,11 @@
 import Dexie from "dexie";
-import { useCallback, useState, useEffect } from "react";
+import { useCallback } from "react";
 
 export interface $Entity {
+  id?: number;
+}
+
+export class Entity implements $Entity {
   id?: number;
 }
 
@@ -13,15 +17,8 @@ interface $Return<T extends $Entity> {
   del: (key: number) => void;
 }
 
-const useRepository = <T extends $Entity>(db: Dexie | null, schema: string): $Return<T> => {
-  const [table, setTable] = useState<Dexie.Table<T, number>>();
-
-  useEffect(() => {
-    db && setTable(db.table(schema));
-  }, [db, schema]);
-
+const useRepository = <T extends $Entity>(table: Dexie.Table<T, number>): $Return<T> => {
   const put = useCallback(async (entity: T, key: number) => {
-    if (!table) return null;
     try {
       const newKey = await table.put(entity, key);
       console.debug(`${JSON.stringify(entity)} with key: ${key} was updated.`);
@@ -36,7 +33,6 @@ const useRepository = <T extends $Entity>(db: Dexie | null, schema: string): $Re
   }, [table]);
 
   const add = useCallback(async (entity: T) => {
-    if (!table) return null;
     try {
       const key = table.add(entity);
       console.debug(`${JSON.stringify(entity)} was added with key: ${key}`);
@@ -51,7 +47,6 @@ const useRepository = <T extends $Entity>(db: Dexie | null, schema: string): $Re
   }, [table]);
 
   const del = useCallback(async (key: number) => {
-    if (!table) return;
     try {
       table.delete(key);
       console.debug(`Entity key: ${key} was deleted`);
@@ -61,7 +56,6 @@ const useRepository = <T extends $Entity>(db: Dexie | null, schema: string): $Re
   }, [table]);
 
   const get = useCallback(async (key: number) => {
-    if (!table) return null;
     try {
       const entity = await table.get(key);
       console.debug(`${JSON.stringify(entity)} was requested with key: ${key}`);
@@ -76,7 +70,6 @@ const useRepository = <T extends $Entity>(db: Dexie | null, schema: string): $Re
   }, [table]);
 
   const getAll = useCallback(async () => {
-    if (!table) return [];
     try {
       const entities = await table.toArray();
       console.debug(`${JSON.stringify(entities)} were requested.`);
