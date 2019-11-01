@@ -1,0 +1,10 @@
+@import '../../../node_modules/bulma/sass/utilities/_all.sass';
+
+@media screen and (max-width: 1024px) {
+  .navMenu {
+    left: 0;
+    right: 0;
+    top: 100%;
+    position: absolute;
+  }
+}
