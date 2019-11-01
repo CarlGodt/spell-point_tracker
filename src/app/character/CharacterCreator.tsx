@@ -1,33 +1,29 @@
 import React, { useState, useCallback, FunctionComponent, FormEvent } from "react";
 import { Box, Title, Label, Field, Control, Input, Button } from "bloomer";
 import useCharacterRepository from "../../domain/character/CharacterRepository";
+import DisplayCard from "../../infrastructure/components/card/DisplayCard";
+import { useHistory } from "react-router";
 
-interface $Props {
-  onSave?: () => void;
-  onClose?: () => void;
-}
-
-const CharacterCreator: FunctionComponent<$Props> = ({onClose, onSave}) => {
+const CharacterCreator: FunctionComponent = () => {
   const [name, setName] = useState<string>('');
   const { add } = useCharacterRepository();
+  const history = useHistory();
 
   const onNameChange = useCallback((event: FormEvent<HTMLInputElement>) => {
     setName(event.currentTarget.value)
   }, []);
 
   const onSubmit = useCallback(() => {
-    add({name});
-    onSave && onSave();
-  }, [add, onSave, name]);
+    add({ name });
+    history.push("/");
+  }, [add, name]);
 
   const onCancel = useCallback(() => {
-    setName('');
-    onClose && onClose();
-  }, [setName, onClose]);
+    history.push("/");
+  }, [setName]);
 
   return (
-    <Box>
-      <Title>Create Character</Title>
+    <DisplayCard title="Create Character">
       <Field>
         <Label>Name</Label>
         <Control>
@@ -45,7 +41,7 @@ const CharacterCreator: FunctionComponent<$Props> = ({onClose, onSave}) => {
           <Button isLink onClick={onCancel}>Cancel</Button>
         </Control>
       </Field>
-    </Box>
+    </DisplayCard>
   );
 }
 

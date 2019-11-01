@@ -25,7 +25,7 @@ const Navigation: FunctionComponent = () => {
           <NavbarItem><Link to="/">Spellpoint Tracker</Link></NavbarItem>
           <NavbarBurger isActive={isActive} onClick={toggleActive} />
         </NavbarBrand>
-        <NavbarMenu isActive={isActive} className="navMenu has-background-grey-dark">
+        <NavbarMenu isActive={isActive} className="navMenu">
           <NavbarEnd>
             <NavbarItem><Link to="/">Character List</Link></NavbarItem>
             <NavbarItem><Link to="create">Create Character</Link></NavbarItem>

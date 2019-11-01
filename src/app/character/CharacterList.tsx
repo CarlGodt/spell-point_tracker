@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import useCharacterRepository from "../../domain/character/CharacterRepository";
-import { Container, CardHeader, Card, CardContent } from "bloomer";
 import $Character from "../../domain/character/Character";
+import DisplayCard from "../../infrastructure/components/card/DisplayCard";
 
 const CharacterList: FunctionComponent = () => {
   const { getAll } = useCharacterRepository();
@@ -17,18 +17,11 @@ const CharacterList: FunctionComponent = () => {
   }, [getAll, setCharacter]);
 
   return (
-    <Container>
-      <Card>
-        <CardHeader>
-          Character
-        </CardHeader>
-        <CardContent>
-          {character && character.map((char, key) => (
-            <div key={key}>{char.name}</div>
-          ))}
-        </CardContent>
-      </Card>
-    </Container>
+    <DisplayCard title="Character">
+      {character && character.map((char, key) => (
+        <div key={key}>{char.name}</div>
+      ))}
+    </DisplayCard>
   );
 }
 
