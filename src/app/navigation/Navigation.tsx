@@ -9,10 +9,16 @@ import {
   NavbarEnd
 } from 'bloomer';
 import './navigation.scss';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const Navigation: FunctionComponent = () => {
   const [isActive, setActive] = useState<boolean>(false);
+  const history = useHistory();
+
+  const navigate = useCallback((path: string) => {
+    history.push(path);
+    setActive(false);
+  }, [history, setActive]);
 
   const toggleActive = useCallback(() => {
     setActive(!isActive);
@@ -22,13 +28,13 @@ const Navigation: FunctionComponent = () => {
     <Navbar className="has-shadow">
       <Container>
         <NavbarBrand>
-          <NavbarItem><Link to="/">Spellpoint Tracker</Link></NavbarItem>
+          <NavbarItem onClick={() => navigate('/')}>Spellpoint Tracker</NavbarItem>
           <NavbarBurger isActive={isActive} onClick={toggleActive} />
         </NavbarBrand>
         <NavbarMenu isActive={isActive} className="navMenu">
           <NavbarEnd>
-            <NavbarItem><Link to="/">Character List</Link></NavbarItem>
-            <NavbarItem><Link to="create">Create Character</Link></NavbarItem>
+            <NavbarItem onClick={() => navigate('/')}>Character List</NavbarItem>
+            <NavbarItem onClick={() => navigate('create')}>Create Character</NavbarItem>
             <NavbarItem>Exit</NavbarItem>
           </NavbarEnd>
         </NavbarMenu>

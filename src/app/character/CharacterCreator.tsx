@@ -1,7 +1,7 @@
 import React, { useState, useCallback, FunctionComponent, FormEvent } from "react";
-import { Box, Title, Label, Field, Control, Input, Button } from "bloomer";
+import { Label, Field, Control, Input, Button } from "bloomer";
 import useCharacterRepository from "../../domain/character/CharacterRepository";
-import DisplayCard from "../../infrastructure/components/card/DisplayCard";
+import DisplayCard from "../../infrastructure/components/DisplayCard";
 import { useHistory } from "react-router";
 
 const CharacterCreator: FunctionComponent = () => {
@@ -16,11 +16,11 @@ const CharacterCreator: FunctionComponent = () => {
   const onSubmit = useCallback(() => {
     add({ name });
     history.push("/");
-  }, [add, name]);
+  }, [add, name, history]);
 
   const onCancel = useCallback(() => {
     history.push("/");
-  }, [setName]);
+  }, [history]);
 
   return (
     <DisplayCard title="Create Character">
