@@ -84,7 +84,8 @@ class Character implements $Entity {
   }
 
   private getClassesOrEmptyMap(): Map<$ClassName, number> {
-    return this.classes || new Map();
+    if (!this.classes) this.classes = new Map();
+    return this.classes;
   }
 
   public getClasses(): Array<[$ClassName, number]> {
