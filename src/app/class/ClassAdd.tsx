@@ -1,10 +1,10 @@
 import React, { useCallback, FunctionComponent, useEffect, useState, FormEvent, useMemo } from "react";
 import { Label, Field, Control, Button, Select } from "bloomer";
 import { useHistory, useParams, useLocation } from "react-router";
-import Character, { MAX_CHARACTER_LEVEL } from "../../../domain/character/Character";
-import CLASSES, { $ClassName, CLASS_NAMES } from "../../../domain/class/Classes";
-import useCharacterRepository from "../../../domain/character/CharacterRepository";
-import DisplayCard from "../../../infrastructure/components/DisplayCard";
+import Character, { MAX_CHARACTER_LEVEL } from "../../domain/character/Character";
+import CLASSES, { $ClassName, CLASS_NAMES } from "../../domain/class/Classes";
+import useCharacterRepository from "../../domain/character/CharacterRepository";
+import DisplayCard from "../../infrastructure/components/DisplayCard";
 
 interface $Params {
   id: string;
@@ -12,7 +12,7 @@ interface $Params {
 
 const getLevels = (maxLevel: number): Array<number> => Array.from(Array(maxLevel).keys());
 
-const CharacterAddClass: FunctionComponent = () => {
+const ClassAdd: FunctionComponent = () => {
   const { update, get } = useCharacterRepository();
   const { id } = useParams<$Params>();
   const history = useHistory();
@@ -100,4 +100,4 @@ const CharacterAddClass: FunctionComponent = () => {
   );
 }
 
-export default CharacterAddClass;
+export default ClassAdd;

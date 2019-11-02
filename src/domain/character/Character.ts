@@ -1,6 +1,5 @@
 import { $Entity } from "../../infrastructure/persistence/repository";
 import CLASSES, { $ClassName } from "../class/Classes";
-import SpellPoints from "../spell/SpellPoints";
 
 export const MAX_CHARACTER_LEVEL = 20;
 
