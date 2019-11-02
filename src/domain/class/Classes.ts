@@ -16,9 +16,12 @@ export const CLASS_NAMES: Array<$ClassName> = [
   'WARLOCK'
 ];
 
+type $SlotReset = 'LONG_REST' | 'SHORT_REST';
+
 export interface $Class {
   readonly name: string;
   readonly spellPoints: $SpellPointIndex;
+  readonly reset: $SlotReset;
 };
 
 interface $ClassIndex {
@@ -28,43 +31,53 @@ interface $ClassIndex {
 const CLASSES: $ClassIndex = {
   BARD: {
     name: 'Bard',
-    spellPoints: SpellPoints
+    spellPoints: SpellPoints,
+    reset: 'LONG_REST'
   },
   CLERIC: {
     name: 'Cleric',
-    spellPoints: SpellPoints
+    spellPoints: SpellPoints,
+    reset: 'LONG_REST'
   },
   DRUID: {
     name: 'Druid',
-    spellPoints: SpellPoints
+    spellPoints: SpellPoints,
+    reset: 'LONG_REST'
   },
   SORCERER: {
     name: 'Sorcerer',
-    spellPoints: SpellPoints
+    spellPoints: SpellPoints,
+    reset: 'LONG_REST'
   },
   WIZARD: {
     name: 'Wizard',
-    spellPoints: SpellPoints
+    spellPoints: SpellPoints,
+    reset: 'LONG_REST'
   },
   PALADIN: {
     name: 'Paladin',
-    spellPoints: createSpellpoints(2)
+    spellPoints: createSpellpoints(2),
+    reset: 'LONG_REST'
   },
   RANGER: {
     name: 'Ranger',
-    spellPoints: createSpellpoints(2)
+    spellPoints: createSpellpoints(2),
+    reset: 'LONG_REST'
   },
   FIGHTER: {
     name: 'Fighter',
-    spellPoints: createSpellpoints(3)
+    spellPoints: createSpellpoints(3),
+    reset: 'LONG_REST'
   },
   ROGUE: {
     name: 'Rogue',
-    spellPoints: createSpellpoints(3)
+    spellPoints: createSpellpoints(3),
+    reset: 'LONG_REST'
   },
   WARLOCK: {
     name: 'Warlock',
-    spellPoints: PactPoints
+    spellPoints: PactPoints,
+    reset: 'SHORT_REST'
   },
 }
 

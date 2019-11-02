@@ -1,5 +1,6 @@
 import { $Entity } from "../../infrastructure/persistence/repository";
 import CLASSES, { $ClassName } from "../class/Classes";
+import { $SpellCost } from "../spell/SpellCost";
 
 export const MAX_CHARACTER_LEVEL = 20;
 
@@ -8,6 +9,7 @@ class Character implements $Entity {
 
   constructor(
     private name: string,
+    private spellPoints: number,
     readonly id?: number
   ) {
     this.classes = new Map();
@@ -25,8 +27,7 @@ class Character implements $Entity {
   }
 
   public setClassLevel(className: $ClassName, level: number): void {
-    if (!this.classes) this.classes = new Map();
-    this.classes.set(className, level);
+    this.getClassesOrEmptyMap().set(className, level);
   }
 
   public getName(): string {
@@ -35,26 +36,55 @@ class Character implements $Entity {
 
   public getLevel(): number {
     let level = 0;
-    this.classes.forEach((value) => level += value)
+    this.getClassesOrEmptyMap().forEach((value) => level += value)
     return level;
   }
 
   public getMaxSpellPoints(): number {
     let maxSpellPoints = 0;
-    this.classes.forEach((value, key) => {
+    this.getClassesOrEmptyMap().forEach((value, key) => {
       maxSpellPoints += CLASSES[key].spellPoints[value].spellPoints;
     });
     return maxSpellPoints;
   }
 
+  public getCurrentSpellPoints(): number {
+    return this.spellPoints | 0;
+  }
+
   public getMaxSpellSlot(): number {
     let maxSpellSlot = 0;
-    this.classes.forEach((value, key) => {
+    this.getClassesOrEmptyMap().forEach((value, key) => {
       if (CLASSES[key].spellPoints[value].maxSpellLevel > maxSpellSlot) {
         maxSpellSlot = CLASSES[key].spellPoints[value].maxSpellLevel;
       }
     });
     return maxSpellSlot;
+  }
+
+  public cast(cost: $SpellCost): void {
+    this.spellPoints = this.spellPoints - cost.pointCost;
+  }
+
+  public longRest(): void {
+    this.spellPoints = this.getMaxSpellPoints();
+  }
+
+  public shortRest(): void {
+    let shortRestPoints = 0;
+    this.classes.forEach((value, key) => {
+      if (CLASSES[key].reset === 'SHORT_REST') {
+        shortRestPoints += CLASSES[key].spellPoints[value].spellPoints;
+      }
+    });
+    this.spellPoints += shortRestPoints;
+    if (this.spellPoints > this.getMaxSpellPoints()) {
+      this.spellPoints = this.getMaxSpellPoints();
+    }
+  }
+
+  private getClassesOrEmptyMap(): Map<$ClassName, number> {
+    return this.classes || new Map();
   }
 
   public getClasses(): Array<[$ClassName, number]> {
@@ -65,7 +95,7 @@ class Character implements $Entity {
   }
 
   public getClassLevel(className: $ClassName): number {
-    return this.classes.get(className) || 0;
+    return this.getClassesOrEmptyMap().get(className) || 0;
   }
 
   public canLevel(): boolean {

@@ -7,7 +7,7 @@ export interface $SpellCostIndex {
   readonly [key: number]: $SpellCost;
 }
 
-const SpellCost: $SpellCostIndex = {
+const SPELL_COST: $SpellCostIndex = {
   1: {
     spellLevel: 1,
     pointCost: 2
@@ -46,4 +46,4 @@ const SpellCost: $SpellCostIndex = {
   },
 }
 
-export default SpellCost;
+export default SPELL_COST;

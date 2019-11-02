@@ -1,51 +1,35 @@
-import React, { useCallback, FunctionComponent, useEffect, useState, FormEvent, useMemo } from "react";
-import { Label, Field, Control, Button, Select } from "bloomer";
-import { useHistory, useParams, useLocation } from "react-router";
+import React, { useCallback, FunctionComponent, useState, FormEvent, useMemo, useEffect } from "react";
+import { Label, Field, Control, Button, Select, Content, FieldLabel, FieldBody } from "bloomer";
 import Character, { MAX_CHARACTER_LEVEL } from "../../domain/character/Character";
 import CLASSES, { $ClassName, CLASS_NAMES } from "../../domain/class/Classes";
 import useCharacterRepository from "../../domain/character/CharacterRepository";
-import DisplayCard from "../../infrastructure/components/DisplayCard";
 
-interface $Params {
-  id: string;
+interface $Props {
+  character: Character;
+  klassToEdit?: $ClassName;
+  onUpdate: (character: Character) => void;
+  onClose: () => void;
 }
 
 const getLevels = (maxLevel: number): Array<number> => Array.from(Array(maxLevel).keys());
 
-const ClassAdd: FunctionComponent = () => {
-  const { update, get } = useCharacterRepository();
-  const { id } = useParams<$Params>();
-  const history = useHistory();
-  const { search } = useLocation();
+const ClassAdd: FunctionComponent<$Props> = ({ character, klassToEdit, onUpdate, onClose }) => {
+  const { update } = useCharacterRepository();
 
-  const [character, setCharacter] = useState<Character>();
   const [klass, setKlass] = useState<$ClassName>(CLASS_NAMES[0]);
   const [level, setLevel] = useState<number>(1);
+
   const levels = useMemo<Array<number>>(() => {
     if (!character) return getLevels(20);
     return getLevels(MAX_CHARACTER_LEVEL - character.getLevel());
   }, [character]);
-  const isEdit = useMemo<boolean>(() => {
-    return !!search;
-  }, [search]);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(search);
-    if (urlParams) {
-      const urlKlass = urlParams.get('klass');
-      if (urlKlass) {
-        setKlass(urlKlass as $ClassName);
-      }
-      const urlLevel = urlParams.get('level');
-      if (urlLevel) {
-        setLevel(parseInt(urlLevel, 10));
-      }
+    if (klassToEdit) {
+      setKlass(klassToEdit);
+      setLevel(character.getClassLevel(klassToEdit));
     }
-  }, [search, setKlass, setLevel])
-
-  useEffect(() => {
-    (async () => setCharacter(await get(parseInt(id, 10))))();
-  }, [id, get, setCharacter]);
+  }, [character, klassToEdit, setKlass, setLevel]);
 
   const onChangeClass = useCallback((event: FormEvent<HTMLSelectElement>) => {
     setKlass(event.currentTarget.value as $ClassName);
@@ -59,44 +43,47 @@ const ClassAdd: FunctionComponent = () => {
     if (!character || !klass || !level) return;
     character.setClassLevel(klass, level);
     update(character);
-    history.push(`/character/${character.id}/`);
-  }, [update, character, history, klass, level]);
-
-  const onCancel = useCallback(() => {
-    history.push(`/character/${id}/`);
-  }, [history, id]);
+    onUpdate(character.clone())
+    onClose();
+  }, [update, onUpdate, onClose, character, klass, level]);
 
   return (
-    <DisplayCard title={`${isEdit ? 'Edit' : 'Add'} Class`}>
-      <Field>
-        <Label>Class</Label>
-        <Control>
-          <Select onChange={onChangeClass} value={klass}>
-            {CLASS_NAMES.map((className, key) => (
-              <option key={key} value={className}>{CLASSES[className].name}</option>
-            ))}
-          </Select>
-        </Control>
+    <Content>
+      <Field isHorizontal>
+        <FieldLabel isNormal>
+          <Label>Class</Label>
+        </FieldLabel>
+        <FieldBody>
+          <Field>
+            <Control isExpanded>
+              <Select onChange={onChangeClass} value={klass}>
+                {CLASS_NAMES.map((className, key) => (
+                  <option key={key} value={className}>{CLASSES[className].name}</option>
+                ))}
+              </Select>
+              <Select onChange={onChangeLevel} value={level}>
+                {levels.map(level => (
+                  <option key={level}>{level + 1}</option>
+                ))}
+              </Select>
+            </Control>
+          </Field>
+        </FieldBody>
       </Field>
-      <Field>
-        <Label>Level</Label>
-        <Control>
-          <Select onChange={onChangeLevel} value={level}>
-            {levels.map(level => (
-              <option key={level}>{level + 1}</option>
-            ))}
-          </Select>
-        </Control>
+      <Field isHorizontal>
+        <FieldLabel />
+        <FieldBody>
+          <Field isGrouped>
+            <Control>
+              <Button isColor="primary" onClick={onSubmit}>Save</Button>
+            </Control>
+            <Control>
+              <Button isLink onClick={onClose}>Cancel</Button>
+            </Control>
+          </Field>
+        </FieldBody>
       </Field>
-      <Field isGrouped>
-        <Control>
-          <Button isColor="primary" onClick={onSubmit}>{`${isEdit ? 'Save' : 'Add'}`}</Button>
-        </Control>
-        <Control>
-          <Button isLink onClick={onCancel}>Cancel</Button>
-        </Control>
-      </Field>
-    </DisplayCard>
+    </Content>
   );
 }
 

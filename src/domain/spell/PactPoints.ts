@@ -1,5 +1,5 @@
 import { $SpellPointIndex } from "./SpellPoints";
-import SpellCost from "./SpellCost";
+import SPELL_COST from "./SpellCost";
 
 const PactPoints: $SpellPointIndex = {
   1: {
@@ -89,6 +89,6 @@ export default PactPoints;
 function calculateSpellPoints(slotLevel: number, slots: number): {maxSpellLevel: number; spellPoints: number} {
   return {
     maxSpellLevel: slotLevel,
-    spellPoints: SpellCost[slotLevel].pointCost * slots
+    spellPoints: SPELL_COST[slotLevel].pointCost * slots
   };
 }

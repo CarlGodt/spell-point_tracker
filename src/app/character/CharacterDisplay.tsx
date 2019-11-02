@@ -1,5 +1,5 @@
 import { FunctionComponent, useState, useEffect } from "react";
-import { Tabs, TabList, Tab, TabLink } from "bloomer";
+import { Tabs, TabList, Tab, TabLink, Title, Level, LevelLeft, LevelRight, Section } from "bloomer";
 import React from "react";
 import { useParams } from "react-router";
 import useCharacterRepository from "../../domain/character/CharacterRepository";
@@ -32,30 +32,37 @@ const CharacterDisplay: FunctionComponent = () => {
   if (!character) return null
 
   return (
-    <>
-      <Tabs>
-        <TabList>
-          <Tab isActive={activeTab === 'INFO'}>
-            <TabLink onClick={() => setActiveTab('INFO')}>Info</TabLink>
-          </Tab>
-          <Tab isActive={activeTab === 'CLASS'}>
-            <TabLink onClick={() => setActiveTab('CLASS')}>Classes</TabLink>
-          </Tab>
-          <Tab isActive={activeTab === 'SPELL'}>
-        <TabLink onClick={() => setActiveTab('SPELL')}>SpellPoints</TabLink>
-          </Tab>
-        </TabList>
-      </Tabs>
+    <Section>
+      <Level isMobile>
+        <LevelLeft>
+          <Title isSize={4}>{character.getName()}</Title>
+        </LevelLeft>
+        <LevelRight>
+          <Tabs>
+            <TabList>
+              <Tab isActive={activeTab === 'INFO'}>
+                <TabLink onClick={() => setActiveTab('INFO')}>Info</TabLink>
+              </Tab>
+              <Tab isActive={activeTab === 'CLASS'}>
+                <TabLink onClick={() => setActiveTab('CLASS')}>Classes</TabLink>
+              </Tab>
+              <Tab isActive={activeTab === 'SPELL'}>
+                <TabLink onClick={() => setActiveTab('SPELL')}>SpellPoints</TabLink>
+              </Tab>
+            </TabList>
+          </Tabs>
+        </LevelRight>
+      </Level>
       {activeTab === 'INFO' && (
         <CharacterDetails character={character} />
       )}
       {activeTab === 'CLASS' && (
-        <ClassDisplay character={character} onUpdateCharacter={setCharacter} />
+        <ClassDisplay character={character} onUpdate={setCharacter} />
       )}
       {activeTab === 'SPELL' && (
-        <SpellPointDisplay/>
+        <SpellPointDisplay character={character} onUpdate={setCharacter} />
       )}
-    </>
+    </Section>
   );
 }
 
