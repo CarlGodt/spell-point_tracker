@@ -14,7 +14,7 @@ const CharacterCreator: FunctionComponent = () => {
   }, []);
 
   const onSubmit = useCallback(() => {
-    add({ name });
+    add({name});
     history.push("/");
   }, [add, name, history]);
 

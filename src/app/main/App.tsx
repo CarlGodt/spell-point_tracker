@@ -4,7 +4,8 @@ import CharacterCreator from '../character/CharacterCreator';
 import Navigation from '../navigation/Navigation';
 import CharacterList from '../character/list/CharacterList';
 import { Route } from 'react-router-dom';
-import CharacterDetails from '../character/CharacterDetails';
+import CharacterDetails from '../character/details/CharacterDetails';
+import CharacterAddClass from '../character/details/CharacterAddClass';
 
 const App: React.FC = () => {
   return (
@@ -14,7 +15,8 @@ const App: React.FC = () => {
         <Container>
           <Route path="/" exact component={CharacterList}/>
           <Route path="/create" component={CharacterCreator}/>
-          <Route path="/character/:id" component={CharacterDetails}/>
+          <Route path="/character/:id" exact component={CharacterDetails}/>
+          <Route path="/character/:id/addClass" component={CharacterAddClass}/>
         </Container>
       </Section>
     </>

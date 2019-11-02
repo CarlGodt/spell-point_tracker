@@ -2,47 +2,43 @@ import Dexie from "dexie";
 import { useCallback } from "react";
 
 export interface $Entity {
-  id?: number;
-}
-
-export class Entity implements $Entity {
-  id?: number;
+  readonly id?: number;
 }
 
 interface $Return<T extends $Entity> {
-  put: (entity: T, key: number) => Promise<T | null>;
-  add: (entity: T) => Promise<T | null>;
-  get: (key: number) => Promise<T | null>;
+  update: (entity: T) => Promise<number | undefined>;
+  put: (entity: T, key: number) => Promise<number | undefined>;
+  add: (entity: any) => Promise<number | undefined>;
+  get: (key: number) => Promise<T | undefined>;
   getAll: () => Promise<Array<T>>;
   del: (key: number) => void;
 }
 
 const useRepository = <T extends $Entity>(table: Dexie.Table<T, number>): $Return<T> => {
-  const put = useCallback(async (entity: T, key: number) => {
+  const put = useCallback(async (entity: T) => {
     try {
-      const newKey = await table.put(entity, key);
-      console.debug(`${JSON.stringify(entity)} with key: ${key} was updated.`);
-      return {
-        id: newKey,
-        ...entity
-      } as T;
+      const newKey = await table.put(entity);
+      console.debug(`${JSON.stringify(entity)} with key: ${entity.id} was updated.`);
+      return newKey;
     } catch (err) {
       console.error(err.stack || err);
-      return null;
+      return undefined;
     }
   }, [table]);
 
-  const add = useCallback(async (entity: T) => {
+  const update = useCallback(async (entity: T) => {
+    if (!entity.id) return undefined;
+    return put(entity);
+  }, [put]);
+
+  const add = useCallback(async (entity: any) => {
     try {
-      const key = table.add(entity);
+      const key = table.add(entity as T);
       console.debug(`${JSON.stringify(entity)} was added with key: ${key}`);
-      return {
-        id: key,
-        ...entity
-      } as T;
+      return key;
     } catch (err) {
       console.error(err.stack || err);
-      return null;
+      return undefined;
     }
   }, [table]);
 
@@ -59,13 +55,10 @@ const useRepository = <T extends $Entity>(table: Dexie.Table<T, number>): $Retur
     try {
       const entity = await table.get(key);
       console.debug(`${JSON.stringify(entity)} was requested with key: ${key}`);
-      return {
-        id: key,
-        ...entity
-      } as T;
+      return entity;
     } catch (err) {
       console.error(err.stack || err);
-      return null;
+      return undefined;
     }
   }, [table]);
 
@@ -81,6 +74,7 @@ const useRepository = <T extends $Entity>(table: Dexie.Table<T, number>): $Retur
   }, [table]);
 
   return {
+    update,
     put,
     add,
     get,

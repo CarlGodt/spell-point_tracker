@@ -1,7 +1,21 @@
-import SpellPoints, { $SpellPointIndex, $SpellPoints } from "../spell/SpellPoints";
+import SpellPoints, { $SpellPointIndex } from "../spell/SpellPoints";
 import PactPoints from "../spell/PactPoints";
 
 export type $ClassName = 'BARD' | 'CLERIC' | 'DRUID' | 'SORCERER' | 'WIZARD' | 'PALADIN' | 'RANGER' | 'RANGER' | 'FIGHTER' | 'ROGUE' | 'WARLOCK';
+export const CLASS_NAMES: Array<$ClassName> = [
+  'BARD',
+  'CLERIC',
+  'DRUID',
+  'SORCERER',
+  'WIZARD',
+  'PALADIN',
+  'RANGER',
+  'RANGER',
+  'FIGHTER',
+  'ROGUE',
+  'WARLOCK'
+];
+
 export interface $Class {
   readonly name: string;
   readonly spellPoints: $SpellPointIndex;
@@ -11,7 +25,7 @@ interface $ClassIndex {
   readonly [key: string]: $Class
 }
 
-const Classes: $ClassIndex = {
+const CLASSES: $ClassIndex = {
   BARD: {
     name: 'Bard',
     spellPoints: SpellPoints
@@ -54,7 +68,7 @@ const Classes: $ClassIndex = {
   },
 }
 
-export default Classes;
+export default CLASSES;
 
 function createSpellpoints(divider: number): $SpellPointIndex {
   let table = {};

@@ -3,9 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAddressCard, faTrash } from '@fortawesome/free-solid-svg-icons'
 import Character from '../../../domain/character/Character';
 import DisplayModal from '../../../infrastructure/components/DisplayModal';
-import { Columns, Column } from 'bloomer';
+import { LevelLeft, LevelItem, LevelRight, Level } from 'bloomer';
 import { useHistory } from 'react-router';
-import './characterListElement.scss';
 
 interface $Props {
   character: Character;
@@ -22,25 +21,27 @@ const CharacterListElement: FunctionComponent<$Props> = ({ character, onDelete }
         title="Delete Character"
         onClose={() => setDeleteConfirmActive(false)}
         onDelete={() => onDelete(character)}>
-        <span>Willst du {character.name} wirklich löschen?</span>
+        <span>Willst du {character.getName()} wirklich löschen?</span>
       </DisplayModal>
-      <Columns isGapless isMobile>
-        <Column>
-          {character.name}
-        </Column>
-        <Column isSize="narrow">
-          <div className="icon">
+      <Level isMobile>
+        <LevelLeft>
+          <LevelItem>
+            {character.getName()}
+          </LevelItem>
+        </LevelLeft>
+        <LevelRight>
+          <LevelItem>
             <FontAwesomeIcon icon={faAddressCard}
-              onClick={() => history.push(`character/${character.id}`)}
+              onClick={() => history.push(`character/${character.id}/`)}
               title="Details" />
-          </div>
-          <div className="icon">
+          </LevelItem>
+          <LevelItem>
             <FontAwesomeIcon icon={faTrash}
               onClick={() => setDeleteConfirmActive(true)}
               title="Delete" />
-          </div>
-        </Column>
-      </Columns>
+          </LevelItem>
+        </LevelRight>
+      </Level>
     </>
   );
 }
