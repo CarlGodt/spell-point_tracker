@@ -1,8 +1,9 @@
-import React, { FunctionComponent, useCallback, useMemo, ReactNodeArray, ReactNode } from "react"
-import { Content, Button, Table } from "bloomer"
+import React, { FunctionComponent, useCallback } from "react"
+import { Content, Table } from "bloomer"
 import Character from "../../domain/character/Character"
 import useCharacterRepository from "../../domain/character/CharacterRepository"
-import SPELL_COST, { $SpellCost } from "../../domain/spell/SpellCost"
+import { $SpellCost } from "../../domain/spell/SpellCost"
+import useSpellSlots from "./SpellSlotHook"
 
 interface $Props {
   character: Character;
@@ -18,31 +19,7 @@ const SpellDisplay: FunctionComponent<$Props> = ({ character, onUpdate }) => {
     onUpdate(character.clone());
   }, [character, update, onUpdate])
 
-  const spellSlots = useMemo<ReactNodeArray>(() => {
-    const slots: Array<ReactNode> = [];
-    for (let i = 1; i <= character.getMaxSpellSlot(); i++) {
-      let level: string = `${i}th`;
-      if (i === 1) {
-        level = `${i}st`;
-      } else if (i === 2) {
-        level = `${i}nd`;
-      } else if (i === 3) {
-        level = `${i}rd`;
-      }
-      slots.push(
-        <tr key={i}>
-          <td>{level} Slot</td>
-          <td>{SPELL_COST[i].pointCost} Points</td>
-          <td>
-            <Content hasTextAlign="right">
-              <Button isColor="primary" isSize="small" onClick={() => cast(SPELL_COST[i])}>Cast</Button>
-            </Content>
-          </td>
-        </tr>
-      );
-    }
-    return slots;
-  }, [character, cast]);
+  const spellSlots = useSpellSlots(character, cast);
 
   return (
     <Content>

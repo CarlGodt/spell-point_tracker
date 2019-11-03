@@ -1,9 +1,10 @@
-import { Progress, Content, Button, Title, Container } from "bloomer";
+import { Progress, Content, Title, Container } from "bloomer";
 import { FunctionComponent, useCallback } from "react";
 import Character from "../../../domain/character/Character";
 import React from "react";
 import styles from './characterHeader.module.scss';
 import useCharacterRepository from "../../../domain/character/CharacterRepository";
+import ConfirmButton from "../../../infrastructure/components/ConfirmButton";
 
 interface $Props {
   character: Character;
@@ -42,8 +43,8 @@ const CharacterHeader: FunctionComponent<$Props> = ({ character, onUpdate }) => 
         </div>
       </div>
       <Content hasTextAlign="right">
-        <Button isSize="small" isFullWidth onClick={onShortRest}>Short Rest</Button>
-        <Button isSize="small" isFullWidth onClick={onLongRest}>Long Rest</Button>
+        <ConfirmButton isSize="small" isFullWidth onClick={onShortRest}>Short Rest</ConfirmButton>
+        <ConfirmButton isSize="small" isFullWidth onClick={onLongRest}>Long Rest</ConfirmButton>
       </Content>
     </Container>
   );

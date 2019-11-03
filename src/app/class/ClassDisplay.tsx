@@ -3,7 +3,7 @@ import { Content } from "bloomer";
 import { $ClassName } from "../../domain/class/Classes";
 import Character from "../../domain/character/Character";
 import useCharacterRepository from "../../domain/character/CharacterRepository";
-import ClassList from "./ClassList";
+import ClassList from "./list/ClassList";
 import ClassAdd from "./ClassAdd";
 
 interface $Props {
