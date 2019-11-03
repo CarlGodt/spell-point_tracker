@@ -6,7 +6,7 @@ import { useHistory } from "react-router";
 import Character from "../../../domain/character/Character";
 import useCharacterRepository from "../../../domain/character/CharacterRepository";
 import Layout from "../../main/Layout";
-import styles from './../characterDisplay.module.scss';
+import styles from './../characterCreator.module.scss';
 import CharacterListElement from "./CharacterListElement";
 
 const CharacterList: FunctionComponent = () => {

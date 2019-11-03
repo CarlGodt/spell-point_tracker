@@ -1,6 +1,7 @@
 import { Hero, HeroBody, HeroFooter, HeroHeader } from "bloomer";
 import React, { FunctionComponent, ReactNode } from "react";
 import Navigation from "../navigation/Navigation";
+import styles from './layout.module.scss';
 
 interface $Props {
   body: ReactNode;
@@ -9,7 +10,7 @@ interface $Props {
 
 const Layout: FunctionComponent<$Props> = ({body, footer}) => {
   return (
-    <Hero isColor="dark" isSize='small'>
+    <Hero isColor="dark" isSize='small' className={styles.fixedHero}>
     <HeroHeader>
       <Navigation/>
     </HeroHeader>

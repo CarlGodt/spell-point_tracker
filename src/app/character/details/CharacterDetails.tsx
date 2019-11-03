@@ -25,7 +25,7 @@ const CharacterDetails: FunctionComponent<$Props> = ({ character, onUpdate }) =>
   return (
     <Content>
       <Content hasTextAlign="centered">
-        {hasImage &&<Image src={`data:image/jpeg;base64,${btoa(character.getImage())}`}/>}
+        {hasImage &&<Image src={`data:image/jpeg;base64,${btoa(character.getImage())}`} onClick={() => setShowUpload(true)}/>}
         {!hasImage && <Button onClick={() => setShowUpload(true)}>Upload Image</Button>}
       </Content>
       <ImageUpload isActive={showUpload}
