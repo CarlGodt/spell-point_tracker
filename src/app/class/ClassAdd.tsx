@@ -1,8 +1,9 @@
-import React, { useCallback, FunctionComponent, useState, FormEvent, useMemo, useEffect } from "react";
-import { Label, Field, Control, Button, Select, Content, FieldLabel, FieldBody } from "bloomer";
+import { Button, Content, Control, Field, Label, Level, LevelLeft, LevelRight, Select } from "bloomer";
+import React, { FormEvent, FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
 import Character, { MAX_CHARACTER_LEVEL } from "../../domain/character/Character";
-import CLASSES, { $ClassName, CLASS_NAMES } from "../../domain/class/Classes";
 import useCharacterRepository from "../../domain/character/CharacterRepository";
+import CLASSES, { $ClassName, CLASS_NAMES } from "../../domain/class/Classes";
+import styles from './classAdd.module.scss';
 
 interface $Props {
   character: Character;
@@ -53,39 +54,32 @@ const ClassAdd: FunctionComponent<$Props> = ({ character, klassToEdit, onUpdate,
 
   return (
     <Content>
-      <Field isHorizontal>
-        <FieldLabel isNormal>
+      <Level isMobile>
+        <LevelLeft>
           <Label>Class</Label>
-        </FieldLabel>
-        <FieldBody>
-          <Field>
-            <Control isExpanded>
-              <Select onChange={onChangeClass} value={klass}>
-                {CLASS_NAMES.map((className, key) => (
-                  <option key={key} value={className}>{CLASSES[className].name}</option>
-                ))}
-              </Select>
-              <Select onChange={onChangeLevel} value={level}>
-                {levels.map(level => (
-                  <option key={level}>{level + 1}</option>
-                ))}
-              </Select>
-            </Control>
-          </Field>
-        </FieldBody>
-      </Field>
-      <Field isHorizontal>
-        <FieldLabel />
-        <FieldBody>
-          <Field isGrouped>
-            <Control>
-              <Button isColor="primary" onClick={onSubmit}>Save</Button>
-            </Control>
-            <Control>
-              <Button isLink onClick={onClose}>Cancel</Button>
-            </Control>
-          </Field>
-        </FieldBody>
+        </LevelLeft>
+        <LevelRight>
+          <Control isExpanded>
+            <Select onChange={onChangeClass} value={klass} className={styles.classSelect}>
+              {CLASS_NAMES.map((className, key) => (
+                <option key={key} value={className}>{CLASSES[className].name}</option>
+              ))}
+            </Select>
+            <Select onChange={onChangeLevel} value={level} className={styles.levelSelect}>
+              {levels.map(level => (
+                <option key={level}>{level + 1}</option>
+              ))}
+            </Select>
+          </Control>
+        </LevelRight>
+      </Level>
+      <Field isGrouped className="is-grouped-right">
+        <Control>
+          <Button isColor="primary" onClick={onSubmit}>Save</Button>
+        </Control>
+        <Control>
+          <Button isLink onClick={onClose}>Cancel</Button>
+        </Control>
       </Field>
     </Content>
   );

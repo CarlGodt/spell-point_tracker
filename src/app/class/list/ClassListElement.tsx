@@ -1,8 +1,9 @@
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Content } from "bloomer";
 import React, { FunctionComponent } from "react";
 import CLASSES, { $ClassName } from "../../../domain/class/Classes";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Level, LevelItem } from "bloomer";
+import styles from './classList.module.scss';
 
 interface $Props {
   level: number;
@@ -11,23 +12,21 @@ interface $Props {
   onDelete: (className: $ClassName) => void;
 }
 
-const ClassListElement: FunctionComponent<$Props> = ({level, className, onEdit, onDelete}) => (
+const ClassListElement: FunctionComponent<$Props> = ({ level, className, onEdit, onDelete }) => (
   <tr>
     <td>{CLASSES[className].name}</td>
     <td>{level}</td>
     <td>
-      <Level isMobile>
-        <LevelItem>
-          <FontAwesomeIcon icon={faEdit}
-            onClick={() => onEdit(className)}
-            title="Edit" />
-        </LevelItem>
-        <LevelItem>
-          <FontAwesomeIcon icon={faTrash}
-            onClick={() => onDelete(className)}
-            title="Delete" />
-        </LevelItem>
-      </Level>
+      <Content hasTextAlign="right">
+        <FontAwesomeIcon icon={faEdit}
+          className={styles.actionIcon}
+          onClick={() => onEdit(className)}
+          title="Edit" />
+        <FontAwesomeIcon icon={faTrash}
+          className={styles.actionIcon}
+          onClick={() => onDelete(className)}
+          title="Delete" />
+      </Content>
     </td>
   </tr>
 );

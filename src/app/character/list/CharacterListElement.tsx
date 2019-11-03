@@ -1,10 +1,11 @@
-import React, { FunctionComponent, useState } from 'react';
+import { faAddressCard, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAddressCard, faTrash } from '@fortawesome/free-solid-svg-icons'
+import React, { FunctionComponent, useState } from 'react';
+import { useHistory } from 'react-router';
 import Character from '../../../domain/character/Character';
 import DisplayModal from '../../../infrastructure/components/DisplayModal';
-import { LevelLeft, LevelItem, LevelRight, Level } from 'bloomer';
-import { useHistory } from 'react-router';
+import { Content } from 'bloomer';
+import styles from './characterList.module.scss';
 
 interface $Props {
   character: Character;
@@ -16,33 +17,29 @@ const CharacterListElement: FunctionComponent<$Props> = ({ character, onDelete }
   const history = useHistory();
 
   return (
-    <>
-      <DisplayModal isActive={isDeleteConfirmActive}
-        title="Delete Character"
-        onClose={() => setDeleteConfirmActive(false)}
-        onDelete={() => onDelete(character)}>
-        <span>Willst du {character.getName()} wirklich löschen?</span>
-      </DisplayModal>
-      <Level isMobile>
-        <LevelLeft>
-          <LevelItem>
-            {character.getName()}
-          </LevelItem>
-        </LevelLeft>
-        <LevelRight>
-          <LevelItem>
-            <FontAwesomeIcon icon={faAddressCard}
-              onClick={() => history.push(`character/${character.id}/`)}
-              title="Details" />
-          </LevelItem>
-          <LevelItem>
-            <FontAwesomeIcon icon={faTrash}
-              onClick={() => setDeleteConfirmActive(true)}
-              title="Delete" />
-          </LevelItem>
-        </LevelRight>
-      </Level>
-    </>
+    <tr>
+      <td>{character.getName()}</td>
+      <td>{character.getLevel()}</td>
+      <td>{character.getCurrentSpellPoints()} / {character.getMaxSpellPoints()}</td>
+      <td>
+        <DisplayModal isActive={isDeleteConfirmActive}
+          title="Delete Character"
+          onClose={() => setDeleteConfirmActive(false)}
+          onDelete={() => onDelete(character)}>
+          <span>Delete {character.getName()} permanently?</span>
+        </DisplayModal>
+        <Content hasTextAlign="right">
+          <FontAwesomeIcon icon={faAddressCard}
+            className={styles.actionIcon}
+            onClick={() => history.push(`character/${character.id}/SPELL`)}
+            title="Details" />
+          <FontAwesomeIcon icon={faTrash}
+            className={styles.actionIcon}
+            onClick={() => setDeleteConfirmActive(true)}
+            title="Delete" />
+        </Content>
+      </td>
+    </tr>
   );
 }
 

@@ -1,8 +1,7 @@
-import React, { useState, useCallback, FunctionComponent, FormEvent } from "react";
-import { Label, Field, Control, Input, Button } from "bloomer";
-import useCharacterRepository from "../../domain/character/CharacterRepository";
-import DisplayCard from "../../infrastructure/components/DisplayCard";
+import { Button, Control, Field, Input, Label, Level, Section, Title } from "bloomer";
+import React, { FormEvent, FunctionComponent, useCallback, useState } from "react";
 import { useHistory } from "react-router";
+import useCharacterRepository from "../../domain/character/CharacterRepository";
 
 const CharacterCreator: FunctionComponent = () => {
   const [name, setName] = useState<string>('');
@@ -23,7 +22,10 @@ const CharacterCreator: FunctionComponent = () => {
   }, [history]);
 
   return (
-    <DisplayCard title="Create Character">
+    <Section>
+      <Level isMobile>
+          <Title>Create Character</Title>
+      </Level>
       <Field>
         <Label>Name</Label>
         <Control>
@@ -41,7 +43,7 @@ const CharacterCreator: FunctionComponent = () => {
           <Button isLink onClick={onCancel}>Cancel</Button>
         </Control>
       </Field>
-    </DisplayCard>
+    </Section>
   );
 }
 

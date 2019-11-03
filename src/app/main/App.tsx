@@ -11,7 +11,7 @@ const App: React.FC = () => {
       <Navigation/>
       <Route path="/" exact component={CharacterList}/>
       <Route path="/create" component={CharacterCreator}/>
-      <Route path="/character/:id" exact component={CharacterDisplay}/>
+      <Route path="/character/:id/:action" component={CharacterDisplay}/>
     </>
   );
 }

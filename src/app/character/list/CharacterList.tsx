@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useState, useEffect, useCallback } from "react";
-import useCharacterRepository from "../../../domain/character/CharacterRepository";
-import Character from "../../../domain/character/Character";
-import DisplayCard from "../../../infrastructure/components/DisplayCard";
-import CharacterListElement from "./CharacterListElement";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Content, Level, LevelLeft, LevelRight, Section, Table, Title, Container } from "bloomer";
+import React, { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import Character from "../../../domain/character/Character";
+import useCharacterRepository from "../../../domain/character/CharacterRepository";
+import CharacterListElement from "./CharacterListElement";
 
 const CharacterList: FunctionComponent = () => {
   const history = useHistory();
@@ -28,9 +28,40 @@ const CharacterList: FunctionComponent = () => {
   }, [del, character, setCharacter]);
 
   return (
-    <DisplayCard title="Character" headerIcon={<FontAwesomeIcon icon={faPlus} onClick={() => history.push('create')} />}>
-      {character && character.map((char, key) => <CharacterListElement key={key} character={char} onDelete={onDelete} />)}
-    </DisplayCard>
+    <Section>
+      <Container>
+        <Level isMobile>
+          <LevelLeft>
+            <Title>Character</Title>
+          </LevelLeft>
+          <LevelRight>
+            <Button title="Create new Character">
+              <span><FontAwesomeIcon icon={faPlus} onClick={() => history.push('create')} /> Add</span>
+            </Button>
+          </LevelRight>
+        </Level>
+        {character && (
+          <Table isFullWidth>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Level</th>
+                <th>SP</th>
+                <th>
+                  <Content hasTextAlign="right">
+                    Actions
+                </Content>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {character.map((char, key) => <CharacterListElement key={key} character={char} onDelete={onDelete} />)}
+            </tbody>
+          </Table>
+        )}
+        {!character && <Content>No characters yet.</Content>}
+      </Container>
+    </Section>
   );
 }
 

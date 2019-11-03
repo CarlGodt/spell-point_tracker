@@ -1,26 +1,26 @@
-import { FunctionComponent, useState, useEffect } from "react";
-import { Tabs, TabList, Tab, TabLink, Section, Container } from "bloomer";
-import React from "react";
-import { useParams } from "react-router";
-import useCharacterRepository from "../../domain/character/CharacterRepository";
+import { Container, Section, Tab, TabLink, TabList, Tabs } from "bloomer";
+import React, { FunctionComponent, useCallback, useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router";
 import Character from "../../domain/character/Character";
+import useCharacterRepository from "../../domain/character/CharacterRepository";
 import ClassDisplay from "../class/ClassDisplay";
-import CharacterDetails from "./details/CharacterDetails";
 import SpellDisplay from "../spells/SpellDisplay";
-import CharacterHeader from "./header/CharacterHeader";
 import styles from './characterDisplay.module.scss';
+import CharacterDetails from "./details/CharacterDetails";
+import CharacterHeader from "./header/CharacterHeader";
 
 type $ActiveTab = 'INFO' | 'CLASS' | 'SPELL';
 
 interface $Params {
   id: string;
+  action: $ActiveTab;
 }
 
 const CharacterDisplay: FunctionComponent = () => {
-  const [activeTab, setActiveTab] = useState<$ActiveTab>('SPELL')
-  const { id } = useParams<$Params>();
+  const { id, action } = useParams<$Params>();
   const { get } = useCharacterRepository();
   const [character, setCharacter] = useState<Character>();
+  const history = useHistory();
 
   useEffect(() => {
     (async () => {
@@ -31,6 +31,10 @@ const CharacterDisplay: FunctionComponent = () => {
     })();
   }, [get, id, setCharacter]);
 
+  const activateTab = useCallback((tab: $ActiveTab) => {
+    history.push(tab)
+  }, [history]);
+
   if (!character) return null
 
   return (
@@ -39,24 +43,24 @@ const CharacterDisplay: FunctionComponent = () => {
       <Container>
         <Tabs className="is-centered" isBoxed isFullWidth>
           <TabList>
-            <Tab isActive={activeTab === 'SPELL'}>
-              <TabLink onClick={() => setActiveTab('SPELL')}>Spells</TabLink>
+            <Tab isActive={action === 'SPELL'}>
+              <TabLink onClick={() => activateTab('SPELL')}>Spells</TabLink>
             </Tab>
-            <Tab isActive={activeTab === 'CLASS'}>
-              <TabLink onClick={() => setActiveTab('CLASS')}>Classes</TabLink>
+            <Tab isActive={action === 'CLASS'}>
+              <TabLink onClick={() => activateTab('CLASS')}>Classes</TabLink>
             </Tab>
-            <Tab isActive={activeTab === 'INFO'}>
-              <TabLink onClick={() => setActiveTab('INFO')}>Info</TabLink>
+            <Tab isActive={action === 'INFO'}>
+              <TabLink onClick={() => activateTab('INFO')}>Info</TabLink>
             </Tab>
           </TabList>
         </Tabs>
-        {activeTab === 'INFO' && (
+        {action === 'INFO' && (
           <CharacterDetails character={character} />
         )}
-        {activeTab === 'CLASS' && (
+        {action === 'CLASS' && (
           <ClassDisplay character={character} onUpdate={setCharacter} />
         )}
-        {activeTab === 'SPELL' && (
+        {action === 'SPELL' && (
           <SpellDisplay character={character} onUpdate={setCharacter} />
         )}
       </Container>
