@@ -88,7 +88,7 @@ function createSpellpoints(divider: number): $SpellPointIndex {
   for (let i = 1; i <= 20; i++) {
     const index = Math.floor(i / divider);
     table = {
-      i: SpellPoints[index],
+      [i]: SpellPoints[index],
       ...table
     }
   }
