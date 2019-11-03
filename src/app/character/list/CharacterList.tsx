@@ -1,10 +1,12 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Content, Level, LevelLeft, LevelRight, Section, Table, Title, Container } from "bloomer";
+import { Button, Container, Content, Level, LevelLeft, LevelRight, Section, Table, Title } from "bloomer";
 import React, { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import Character from "../../../domain/character/Character";
 import useCharacterRepository from "../../../domain/character/CharacterRepository";
+import Layout from "../../main/Layout";
+import styles from './../characterDisplay.module.scss';
 import CharacterListElement from "./CharacterListElement";
 
 const CharacterList: FunctionComponent = () => {
@@ -28,40 +30,45 @@ const CharacterList: FunctionComponent = () => {
   }, [del, character, setCharacter]);
 
   return (
-    <Section>
-      <Container>
-        <Level isMobile>
-          <LevelLeft>
-            <Title>Character</Title>
-          </LevelLeft>
-          <LevelRight>
-            <Button title="Create new Character">
-              <span><FontAwesomeIcon icon={faPlus} onClick={() => history.push('create')} /> Add</span>
-            </Button>
-          </LevelRight>
-        </Level>
-        {character && (
-          <Table isFullWidth>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Level</th>
-                <th>SP</th>
-                <th>
-                  <Content hasTextAlign="right">
-                    Actions
+    <>
+      <Layout
+        body={(
+          <Level isMobile>
+            <LevelLeft>
+              <Title>Character</Title>
+            </LevelLeft>
+            <LevelRight>
+              <Button title="Create new Character" onClick={() => history.push('create')} isSize="small">
+                <span><FontAwesomeIcon icon={faPlus}/> Add</span>
+              </Button>
+            </LevelRight>
+          </Level>
+        )} />
+      <Section className={styles.section}>
+        <Container>
+          {character && (
+            <Table isFullWidth>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Level</th>
+                  <th>SP</th>
+                  <th>
+                    <Content hasTextAlign="right">
+                      Actions
                 </Content>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {character.map((char, key) => <CharacterListElement key={key} character={char} onDelete={onDelete} />)}
-            </tbody>
-          </Table>
-        )}
-        {!character && <Content>No characters yet.</Content>}
-      </Container>
-    </Section>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {character.map((char, key) => <CharacterListElement key={key} character={char} onDelete={onDelete} />)}
+              </tbody>
+            </Table>
+          )}
+          {!character && <Content>No characters yet.</Content>}
+        </Container>
+      </Section>
+    </>
   );
 }
 

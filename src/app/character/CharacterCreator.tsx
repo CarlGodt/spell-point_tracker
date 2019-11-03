@@ -2,6 +2,8 @@ import { Button, Control, Field, Input, Label, Level, Section, Title } from "blo
 import React, { FormEvent, FunctionComponent, useCallback, useState } from "react";
 import { useHistory } from "react-router";
 import useCharacterRepository from "../../domain/character/CharacterRepository";
+import Layout from "../main/Layout";
+import styles from './characterDisplay.module.scss';
 
 const CharacterCreator: FunctionComponent = () => {
   const [name, setName] = useState<string>('');
@@ -13,7 +15,7 @@ const CharacterCreator: FunctionComponent = () => {
   }, []);
 
   const onSubmit = useCallback(() => {
-    add({name});
+    add({ name });
     history.push("/");
   }, [add, name, history]);
 
@@ -22,28 +24,33 @@ const CharacterCreator: FunctionComponent = () => {
   }, [history]);
 
   return (
-    <Section>
-      <Level isMobile>
-          <Title>Create Character</Title>
-      </Level>
-      <Field>
-        <Label>Name</Label>
-        <Control>
-          <Input type="text"
-            placeholder="Name"
-            value={name}
-            onChange={onNameChange} />
-        </Control>
-      </Field>
-      <Field isGrouped>
-        <Control>
-          <Button isColor="primary" onClick={onSubmit}>Create</Button>
-        </Control>
-        <Control>
-          <Button isLink onClick={onCancel}>Cancel</Button>
-        </Control>
-      </Field>
-    </Section>
+    <>
+      <Layout
+        body={(
+          <Level isMobile>
+            <Title>Create Character</Title>
+          </Level>
+        )} />
+      <Section className={styles.section}>
+        <Field>
+          <Label>Name</Label>
+          <Control>
+            <Input type="text"
+              placeholder="Name"
+              value={name}
+              onChange={onNameChange} />
+          </Control>
+        </Field>
+        <Field isGrouped>
+          <Control>
+            <Button isColor="primary" onClick={onSubmit}>Create</Button>
+          </Control>
+          <Control>
+            <Button isLink onClick={onCancel}>Cancel</Button>
+          </Control>
+        </Field>
+      </Section>
+    </>
   );
 }
 

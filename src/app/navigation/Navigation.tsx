@@ -14,7 +14,7 @@ const Navigation: FunctionComponent = () => {
   const history = useHistory();
 
   return (
-    <Navbar className="has-shadow">
+    <Navbar>
       <Container isDisplay="flex" style={{alignItems: 'center', justifyContent: 'space-between'}}>
         <NavbarBrand isDisplay="inline-flex">
           <NavbarItem onClick={() => history.push('/')}>Spellpoint Tracker</NavbarItem>
