@@ -1,6 +1,7 @@
 export interface $SpellCost {
   readonly spellLevel: number;
   readonly pointCost: number;
+  readonly maxCast: number;
 }
 
 export interface $SpellCostIndex {
@@ -10,39 +11,48 @@ export interface $SpellCostIndex {
 const SPELL_COST: $SpellCostIndex = {
   1: {
     spellLevel: 1,
-    pointCost: 2
+    pointCost: 2,
+    maxCast: 0
   },
   2: {
     spellLevel: 2,
-    pointCost: 3
+    pointCost: 3,
+    maxCast: 0
   },
   3: {
     spellLevel: 3,
-    pointCost: 5
+    pointCost: 5,
+    maxCast: 0
   },
   4: {
     spellLevel: 4,
-    pointCost: 6
+    pointCost: 6,
+    maxCast: 0
   },
   5: {
     spellLevel: 5,
-    pointCost: 7
+    pointCost: 7,
+    maxCast: 0
   },
   6: {
     spellLevel: 6,
-    pointCost: 9
+    pointCost: 9,
+    maxCast: 1
   },
   7: {
     spellLevel: 7,
-    pointCost: 10
+    pointCost: 10,
+    maxCast: 1
   },
   8: {
     spellLevel: 8,
-    pointCost: 11
+    pointCost: 11,
+    maxCast: 1
   },
   9: {
     spellLevel: 9,
-    pointCost: 13
+    pointCost: 13,
+    maxCast: 1
   },
 }
 

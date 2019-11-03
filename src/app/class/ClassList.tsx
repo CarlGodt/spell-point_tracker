@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from "react";
-import { Table, Level, LevelItem } from "bloomer";
+import { Table, Level, LevelItem, Button, Content } from "bloomer";
 import Character from "../../domain/character/Character";
 import CLASSES, { $ClassName } from "../../domain/class/Classes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 interface $Props {
   character: Character;
   onDelete: (className: $ClassName) => void;
-  onEdit: (className: $ClassName) => void;
+  onEdit: (className?: $ClassName) => void;
 }
 
 const ClassList: FunctionComponent<$Props> = ({ character, onDelete, onEdit }) => (
@@ -17,7 +17,13 @@ const ClassList: FunctionComponent<$Props> = ({ character, onDelete, onEdit }) =
       <tr>
         <th>Class</th>
         <th>Level</th>
-        <th></th>
+        <th>
+          <Content hasTextAlign="right">
+            <Button title="Add class" isSize="small" onClick={() => onEdit()}>
+              <span><FontAwesomeIcon icon={faPlus} /> Add</span>
+            </Button>
+          </Content>
+        </th>
       </tr>
     </thead>
     <tbody>

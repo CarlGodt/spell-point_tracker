@@ -1,12 +1,14 @@
 import { FunctionComponent, useState, useEffect } from "react";
-import { Tabs, TabList, Tab, TabLink, Title, Level, LevelLeft, LevelRight, Section } from "bloomer";
+import { Tabs, TabList, Tab, TabLink, Section, Container } from "bloomer";
 import React from "react";
 import { useParams } from "react-router";
 import useCharacterRepository from "../../domain/character/CharacterRepository";
 import Character from "../../domain/character/Character";
 import ClassDisplay from "../class/ClassDisplay";
 import CharacterDetails from "./details/CharacterDetails";
-import SpellPointDisplay from "../spellpoints/SpellPointDisplay";
+import SpellDisplay from "../spells/SpellDisplay";
+import CharacterHeader from "./header/CharacterHeader";
+import styles from './characterDisplay.module.scss';
 
 type $ActiveTab = 'INFO' | 'CLASS' | 'SPELL';
 
@@ -15,7 +17,7 @@ interface $Params {
 }
 
 const CharacterDisplay: FunctionComponent = () => {
-  const [activeTab, setActiveTab] = useState<$ActiveTab>('INFO')
+  const [activeTab, setActiveTab] = useState<$ActiveTab>('SPELL')
   const { id } = useParams<$Params>();
   const { get } = useCharacterRepository();
   const [character, setCharacter] = useState<Character>();
@@ -32,36 +34,32 @@ const CharacterDisplay: FunctionComponent = () => {
   if (!character) return null
 
   return (
-    <Section>
-      <Level isMobile>
-        <LevelLeft>
-          <Title isSize={4}>{character.getName()}</Title>
-        </LevelLeft>
-        <LevelRight>
-          <Tabs>
-            <TabList>
-              <Tab isActive={activeTab === 'INFO'}>
-                <TabLink onClick={() => setActiveTab('INFO')}>Info</TabLink>
-              </Tab>
-              <Tab isActive={activeTab === 'CLASS'}>
-                <TabLink onClick={() => setActiveTab('CLASS')}>Classes</TabLink>
-              </Tab>
-              <Tab isActive={activeTab === 'SPELL'}>
-                <TabLink onClick={() => setActiveTab('SPELL')}>SpellPoints</TabLink>
-              </Tab>
-            </TabList>
-          </Tabs>
-        </LevelRight>
-      </Level>
-      {activeTab === 'INFO' && (
-        <CharacterDetails character={character} />
-      )}
-      {activeTab === 'CLASS' && (
-        <ClassDisplay character={character} onUpdate={setCharacter} />
-      )}
-      {activeTab === 'SPELL' && (
-        <SpellPointDisplay character={character} onUpdate={setCharacter} />
-      )}
+    <Section className={styles.section}>
+      <CharacterHeader character={character} onUpdate={setCharacter}/>
+      <Container>
+        <Tabs className="is-centered" isBoxed isFullWidth>
+          <TabList>
+            <Tab isActive={activeTab === 'SPELL'}>
+              <TabLink onClick={() => setActiveTab('SPELL')}>Spells</TabLink>
+            </Tab>
+            <Tab isActive={activeTab === 'CLASS'}>
+              <TabLink onClick={() => setActiveTab('CLASS')}>Classes</TabLink>
+            </Tab>
+            <Tab isActive={activeTab === 'INFO'}>
+              <TabLink onClick={() => setActiveTab('INFO')}>Info</TabLink>
+            </Tab>
+          </TabList>
+        </Tabs>
+        {activeTab === 'INFO' && (
+          <CharacterDetails character={character} />
+        )}
+        {activeTab === 'CLASS' && (
+          <ClassDisplay character={character} onUpdate={setCharacter} />
+        )}
+        {activeTab === 'SPELL' && (
+          <SpellDisplay character={character} onUpdate={setCharacter} />
+        )}
+      </Container>
     </Section>
   );
 }

@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { Content, Button } from "bloomer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { Content } from "bloomer";
 import { $ClassName } from "../../domain/class/Classes";
 import Character from "../../domain/character/Character";
 import useCharacterRepository from "../../domain/character/CharacterRepository";
@@ -25,7 +23,7 @@ const ClassDisplay: FunctionComponent<$Props> = ({ character, onUpdate }) => {
     onUpdate(character.clone())
   }, [update, character, onUpdate]);
 
-  const onEdit = useCallback((className: $ClassName) => {
+  const onEdit = useCallback((className?: $ClassName) => {
     setClassName(className);
     setEditMode(true);
   }, [setClassName, setEditMode]);
@@ -38,14 +36,9 @@ const ClassDisplay: FunctionComponent<$Props> = ({ character, onUpdate }) => {
   return (
     <Content>
       {!editMode && (
-        <>
-          <ClassList character={character} onDelete={onDelete} onEdit={onEdit} />
-          <Content hasTextAlign="right">
-            <Button title="Add class" onClick={() => setEditMode(true)}>
-              <span><FontAwesomeIcon icon={faPlus} /> Add</span>
-            </Button>
-          </Content>
-        </>
+        <ClassList character={character}
+          onDelete={onDelete}
+          onEdit={onEdit} />
       )}
       {editMode && (
         <ClassAdd character={character}
