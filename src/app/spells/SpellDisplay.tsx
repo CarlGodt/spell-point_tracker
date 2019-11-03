@@ -28,6 +28,7 @@ const SpellDisplay: FunctionComponent<$Props> = ({ character, onUpdate }) => {
           <tr>
             <th>Level</th>
             <th>Cost</th>
+            <th>Casts</th>
             <th></th>
           </tr>
         </thead>

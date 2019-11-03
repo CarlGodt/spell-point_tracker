@@ -6,6 +6,7 @@ export const MAX_CHARACTER_LEVEL = 20;
 
 class Character implements $Entity {
   private classes: Map<$ClassName, number>;
+  private casts: Array<number>;
 
   constructor(
     private name: string,
@@ -13,6 +14,8 @@ class Character implements $Entity {
     readonly id?: number
   ) {
     this.classes = new Map();
+    this.casts = new Array(10);
+    this.casts.fill(0);
   }
 
   public addClass(className: $ClassName): void {
@@ -52,22 +55,44 @@ class Character implements $Entity {
     return this.spellPoints | 0;
   }
 
-  public getMaxSpellSlot(): number {
+  public getMaxSpellSlotClass(): {slotLevel: number, classLevel: number} {
     let maxSpellSlot = 0;
+    let maxSpellSlotClass = {
+      slotLevel: 0,
+      classLevel: 0
+    };
     this.getClassesOrEmptyMap().forEach((value, key) => {
       if (CLASSES[key].spellPoints[value].maxSpellLevel > maxSpellSlot) {
         maxSpellSlot = CLASSES[key].spellPoints[value].maxSpellLevel;
+        maxSpellSlotClass = {
+          slotLevel: CLASSES[key].spellPoints[value].maxSpellLevel,
+          classLevel: value
+        };  
       }
     });
-    return maxSpellSlot;
+    return maxSpellSlotClass;
+  }
+
+  public getCasts(): Array<number> {
+    if (!this.casts) {
+      this.casts = new Array(10);
+      this.casts.fill(0);
+    }
+    return this.casts;
   }
 
   public cast(cost: $SpellCost): void {
     this.spellPoints = this.spellPoints - cost.pointCost;
+    this.getCasts()[cost.spellLevel] = this.getCasts()[cost.spellLevel] + 1;
+  }
+
+  public getCastsForLevel(level: number): number {
+    return this.getCasts()[level];
   }
 
   public longRest(): void {
     this.spellPoints = this.getMaxSpellPoints();
+    this.getCasts().fill(0);
   }
 
   public shortRest(): void {

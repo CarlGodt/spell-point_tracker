@@ -107,7 +107,7 @@ const SpellPoints: $SpellPointIndex = {
   20: {
     level: 20,
     maxSpellLevel: 9,
-    spellPoints: 233
+    spellPoints: 133
   }
 }
 

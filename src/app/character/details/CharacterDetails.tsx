@@ -12,7 +12,7 @@ const CharacterDetails: FunctionComponent<$Props> = ({ character }) => (
       <tbody>
         <tr><td><strong>Level:</strong></td><td>{character.getLevel()}</td></tr>
         <tr><td><strong>Max Spellpoints:</strong></td><td>{character.getMaxSpellPoints()}</td></tr>
-        <tr><td><strong>Max Spellslot:</strong></td><td>{character.getMaxSpellSlot()}</td></tr>
+        <tr><td><strong>Max Spellslot:</strong></td><td>{character.getMaxSpellSlotClass()}</td></tr>
       </tbody>
     </Table>
   </Content>

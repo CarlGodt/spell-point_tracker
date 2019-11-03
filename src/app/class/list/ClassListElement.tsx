@@ -5,15 +5,14 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Level, LevelItem } from "bloomer";
 
 interface $Props {
-  key: number;
   level: number;
   className: $ClassName;
   onEdit: (className: $ClassName) => void;
   onDelete: (className: $ClassName) => void;
 }
 
-const ClassListElement: FunctionComponent<$Props> = ({key, level, className, onEdit, onDelete}) => (
-  <tr key={key}>
+const ClassListElement: FunctionComponent<$Props> = ({level, className, onEdit, onDelete}) => (
+  <tr>
     <td>{CLASSES[className].name}</td>
     <td>{level}</td>
     <td>

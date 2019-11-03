@@ -20,7 +20,10 @@ const ClassList: FunctionComponent<$Props> = ({ character, onDelete, onEdit }) =
         <th>Level</th>
         <th>
           <Content hasTextAlign="right">
-            <Button title="Add class" isSize="small" onClick={() => onEdit()}>
+            <Button title="Add class"
+              isSize="small"
+              disabled={character.getLevel() === 20}
+              onClick={() => onEdit()}>
               <span><FontAwesomeIcon icon={faPlus} /> Add</span>
             </Button>
           </Content>

@@ -21,8 +21,12 @@ const ClassAdd: FunctionComponent<$Props> = ({ character, klassToEdit, onUpdate,
 
   const levels = useMemo<Array<number>>(() => {
     if (!character) return getLevels(20);
+    if (klassToEdit) {
+      const currentClassLevel = character.getClassLevel(klassToEdit);
+      return getLevels(MAX_CHARACTER_LEVEL - (character.getLevel() - currentClassLevel));
+    }
     return getLevels(MAX_CHARACTER_LEVEL - character.getLevel());
-  }, [character]);
+  }, [character, klassToEdit]);
 
   useEffect(() => {
     if (klassToEdit) {
