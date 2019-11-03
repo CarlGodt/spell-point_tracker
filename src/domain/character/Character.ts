@@ -11,6 +11,7 @@ class Character implements $Entity {
   constructor(
     private name: string,
     private spellPoints: number,
+    private image?: string,
     readonly id?: number
   ) {
     this.classes = new Map();
@@ -130,6 +131,14 @@ class Character implements $Entity {
 
   public clone(): Character {
     return Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+  }
+
+  public setImage(image: string) {
+    this.image = image;
+  }
+
+  public getImage() {
+    return this.image || '';
   }
 }
 

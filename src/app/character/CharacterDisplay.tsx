@@ -60,7 +60,7 @@ const CharacterDisplay: FunctionComponent = () => {
       <Section className={styles.section}>
         <Container>
           {action === 'INFO' && (
-            <CharacterDetails character={character} />
+            <CharacterDetails character={character} onUpdate={setCharacter} />
           )}
           {action === 'CLASS' && (
             <ClassDisplay character={character} onUpdate={setCharacter} />
