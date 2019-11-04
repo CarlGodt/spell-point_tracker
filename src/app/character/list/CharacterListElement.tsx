@@ -12,35 +12,48 @@ interface $Props {
   onDelete: (character: Character) => void;
 }
 
-const CharacterListElement: FunctionComponent<$Props> = ({ character, onDelete }) => {
-  const [isDeleteConfirmActive, setDeleteConfirmActive] = useState<boolean>(false);
+const CharacterListElement: FunctionComponent<$Props> = ({
+  character,
+  onDelete,
+}) => {
+  const [isDeleteConfirmActive, setDeleteConfirmActive] = useState<boolean>(
+    false
+  );
   const history = useHistory();
 
   return (
     <tr>
       <td>{character.getName()}</td>
       <td>{character.getLevel()}</td>
-      <td>{character.getCurrentSpellPoints()} / {character.getMaxSpellPoints()}</td>
       <td>
-        <DisplayModal isActive={isDeleteConfirmActive}
+        {character.getCurrentSpellPoints()} / {character.getMaxSpellPoints()}
+      </td>
+      <td>
+        <DisplayModal
+          isActive={isDeleteConfirmActive}
           title="Delete Character"
           onClose={() => setDeleteConfirmActive(false)}
-          onDelete={() => onDelete(character)}>
+          onDelete={() => onDelete(character)}
+        >
           <span>Delete {character.getName()} permanently?</span>
         </DisplayModal>
         <Content hasTextAlign="right">
-          <FontAwesomeIcon icon={faAddressCard}
+          <FontAwesomeIcon
+            icon={faAddressCard}
             className={styles.actionIcon}
             onClick={() => history.push(`character/${character.id}/SPELL`)}
-            title="Details" />
-          <FontAwesomeIcon icon={faTrash}
+            title="Details"
+          />
+          <FontAwesomeIcon
+            icon={faTrash}
             className={styles.actionIcon}
             onClick={() => setDeleteConfirmActive(true)}
-            title="Delete" />
+            title="Delete"
+          />
         </Content>
       </td>
     </tr>
   );
-}
+};
 
 export default CharacterListElement;

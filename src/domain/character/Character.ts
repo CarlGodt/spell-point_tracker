@@ -1,6 +1,6 @@
-import { $Entity } from "../../infrastructure/persistence/repository";
-import CLASSES, { $ClassName } from "../class/Classes";
-import { $SpellCost } from "../spell/SpellCost";
+import { $Entity } from '../../infrastructure/persistence/repository';
+import CLASSES, { $ClassName } from '../class/Classes';
+import { $SpellCost } from '../spell/SpellCost';
 
 export const MAX_CHARACTER_LEVEL = 20;
 
@@ -40,7 +40,7 @@ class Character implements $Entity {
 
   public getLevel(): number {
     let level = 0;
-    this.getClassesOrEmptyMap().forEach((value) => level += value)
+    this.getClassesOrEmptyMap().forEach(value => (level += value));
     return level;
   }
 
@@ -56,19 +56,19 @@ class Character implements $Entity {
     return this.spellPoints | 0;
   }
 
-  public getMaxSpellSlotClass(): {slotLevel: number, classLevel: number} {
+  public getMaxSpellSlotClass(): { slotLevel: number; classLevel: number } {
     let maxSpellSlot = 0;
     let maxSpellSlotClass = {
       slotLevel: 0,
-      classLevel: 0
+      classLevel: 0,
     };
     this.getClassesOrEmptyMap().forEach((value, key) => {
       if (CLASSES[key].spellPoints[value].maxSpellLevel > maxSpellSlot) {
         maxSpellSlot = CLASSES[key].spellPoints[value].maxSpellLevel;
         maxSpellSlotClass = {
           slotLevel: CLASSES[key].spellPoints[value].maxSpellLevel,
-          classLevel: value
-        };  
+          classLevel: value,
+        };
       }
     });
     return maxSpellSlotClass;

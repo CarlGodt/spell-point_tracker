@@ -1,14 +1,19 @@
-import { Container, Section, Tab, TabLink, TabList, Tabs } from "bloomer";
-import React, { FunctionComponent, useCallback, useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router";
-import Character from "../../domain/character/Character";
-import useCharacterRepository from "../../domain/character/CharacterRepository";
-import ClassDisplay from "../class/ClassDisplay";
-import Layout from "../main/Layout";
-import SpellDisplay from "../spells/SpellDisplay";
+import { Container, Section, Tab, TabLink, TabList, Tabs } from 'bloomer';
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import { useHistory, useParams } from 'react-router';
+import Character from '../../../domain/character/Character';
+import useCharacterRepository from '../../../domain/character/CharacterRepository';
+import ClassDisplay from '../../class/ClassDisplay';
+import Layout from '../../main/Layout';
+import SpellDisplay from '../../spells/SpellDisplay';
 import styles from './characterDisplay.module.scss';
-import CharacterDetails from "./details/CharacterDetails";
-import CharacterHeader from "./header/CharacterHeader";
+import CharacterDetails from '../details/CharacterDetails';
+import CharacterHeader from '../header/CharacterHeader';
 
 type $ActiveTab = 'INFO' | 'CLASS' | 'SPELL';
 
@@ -32,17 +37,20 @@ const CharacterDisplay: FunctionComponent = () => {
     })();
   }, [get, id, setCharacter]);
 
-  const activateTab = useCallback((tab: $ActiveTab) => {
-    history.push(tab)
-  }, [history]);
+  const activateTab = useCallback(
+    (tab: $ActiveTab) => {
+      history.push(tab);
+    },
+    [history]
+  );
 
-  if (!character) return null
+  if (!character) return null;
 
   return (
     <>
       <Layout
         body={<CharacterHeader character={character} onUpdate={setCharacter} />}
-        footer={(
+        footer={
           <Tabs className="is-centered" isBoxed isFullWidth>
             <TabList>
               <Tab isActive={action === 'SPELL'}>
@@ -56,7 +64,8 @@ const CharacterDisplay: FunctionComponent = () => {
               </Tab>
             </TabList>
           </Tabs>
-        )} />
+        }
+      />
       <Section className={styles.section}>
         <Container>
           {action === 'INFO' && (
@@ -72,6 +81,6 @@ const CharacterDisplay: FunctionComponent = () => {
       </Section>
     </>
   );
-}
+};
 
 export default CharacterDisplay;

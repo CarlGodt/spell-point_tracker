@@ -1,10 +1,10 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Content, Table } from "bloomer";
-import React, { FunctionComponent } from "react";
-import Character from "../../../domain/character/Character";
-import { $ClassName } from "../../../domain/class/Classes";
-import ClassListElement from "./ClassListElement";
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Content, Table } from 'bloomer';
+import React, { FunctionComponent } from 'react';
+import Character from '../../../domain/character/Character';
+import { $ClassName } from '../../../domain/class/Classes';
+import ClassListElement from './ClassListElement';
 
 interface $Props {
   character: Character;
@@ -12,7 +12,11 @@ interface $Props {
   onEdit: (className?: $ClassName) => void;
 }
 
-const ClassList: FunctionComponent<$Props> = ({ character, onDelete, onEdit }) => (
+const ClassList: FunctionComponent<$Props> = ({
+  character,
+  onDelete,
+  onEdit,
+}) => (
   <Table isStriped isFullWidth>
     <thead>
       <tr>
@@ -20,11 +24,15 @@ const ClassList: FunctionComponent<$Props> = ({ character, onDelete, onEdit }) =
         <th>Level</th>
         <th>
           <Content hasTextAlign="right">
-            <Button title="Add class"
+            <Button
+              title="Add class"
               isSize="small"
               disabled={character.getLevel() === 20}
-              onClick={() => onEdit()}>
-              <span><FontAwesomeIcon icon={faPlus} /> Add</span>
+              onClick={() => onEdit()}
+            >
+              <span>
+                <FontAwesomeIcon icon={faPlus} /> Add
+              </span>
             </Button>
           </Content>
         </th>
@@ -32,11 +40,13 @@ const ClassList: FunctionComponent<$Props> = ({ character, onDelete, onEdit }) =
     </thead>
     <tbody>
       {character.getClasses().map(([className, level], key) => (
-        <ClassListElement className={className}
+        <ClassListElement
+          className={className}
           onEdit={onEdit}
           onDelete={onDelete}
           level={level}
-          key={key} />
+          key={key}
+        />
       ))}
     </tbody>
   </Table>

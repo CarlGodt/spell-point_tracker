@@ -1,5 +1,15 @@
-import React, { FunctionComponent, ReactNodeArray, ReactNode } from "react"
-import { Modal, ModalBackground, ModalCard, ModalCardHeader, ModalCardTitle, Delete, ModalCardBody, ModalCardFooter, Button } from "bloomer"
+import React, { FunctionComponent, ReactNodeArray, ReactNode } from 'react';
+import {
+  Modal,
+  ModalBackground,
+  ModalCard,
+  ModalCardHeader,
+  ModalCardTitle,
+  Delete,
+  ModalCardBody,
+  ModalCardFooter,
+  Button,
+} from 'bloomer';
 
 interface $Props {
   isActive: boolean;
@@ -24,35 +34,38 @@ const DisplayModal: FunctionComponent<$Props> = ({
   onSaveText,
   onDelete,
   onDeleteText,
-  loading
+  loading,
 }) => (
-    <Modal isActive={isActive}>
-      <ModalBackground />
-      <ModalCard>
-        <ModalCardHeader>
-          <ModalCardTitle>{title}</ModalCardTitle>
-          <Delete onClick={onClose} disabled={loading}/>
-        </ModalCardHeader>
-        <ModalCardBody>
-          {children}
-        </ModalCardBody>
-        <ModalCardFooter>
-          {onSave && (
-            <Button isColor='success' onClick={onSave} isLoading={loading} disabled={loading}>
-              {onSaveText ? onSaveText : 'Save'}
-            </Button>
-          )}
-          {onDelete && (
-            <Button isColor='danger' onClick={onDelete} disabled={loading}>
-              {onDeleteText ? onDeleteText : 'Delete'}
-            </Button>
-          )}
-          <Button onClick={onClose} disabled={loading}>
-            {onCloseText ? onCloseText : 'Cancel'}
+  <Modal isActive={isActive}>
+    <ModalBackground />
+    <ModalCard>
+      <ModalCardHeader>
+        <ModalCardTitle>{title}</ModalCardTitle>
+        <Delete onClick={onClose} disabled={loading} />
+      </ModalCardHeader>
+      <ModalCardBody>{children}</ModalCardBody>
+      <ModalCardFooter>
+        {onSave && (
+          <Button
+            isColor="success"
+            onClick={onSave}
+            isLoading={loading}
+            disabled={loading}
+          >
+            {onSaveText ? onSaveText : 'Save'}
           </Button>
-        </ModalCardFooter>
-      </ModalCard>
-    </Modal>
-  );
+        )}
+        {onDelete && (
+          <Button isColor="danger" onClick={onDelete} disabled={loading}>
+            {onDeleteText ? onDeleteText : 'Delete'}
+          </Button>
+        )}
+        <Button onClick={onClose} disabled={loading}>
+          {onCloseText ? onCloseText : 'Cancel'}
+        </Button>
+      </ModalCardFooter>
+    </ModalCard>
+  </Modal>
+);
 
 export default DisplayModal;

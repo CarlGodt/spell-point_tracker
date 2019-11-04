@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useCallback } from "react"
-import { Content, Table } from "bloomer"
-import Character from "../../domain/character/Character"
-import useCharacterRepository from "../../domain/character/CharacterRepository"
-import { $SpellCost } from "../../domain/spell/SpellCost"
-import useSpellSlots from "./SpellSlotHook"
+import React, { FunctionComponent, useCallback } from 'react';
+import { Content, Table } from 'bloomer';
+import Character from '../../domain/character/Character';
+import useCharacterRepository from '../../domain/character/CharacterRepository';
+import { $SpellCost } from '../../domain/spell/SpellCost';
+import useSpellSlots from './SpellSlotHook';
 
 interface $Props {
   character: Character;
@@ -13,11 +13,14 @@ interface $Props {
 const SpellDisplay: FunctionComponent<$Props> = ({ character, onUpdate }) => {
   const { update } = useCharacterRepository();
 
-  const cast = useCallback((cost: $SpellCost) => {
-    character.cast(cost);
-    update(character);
-    onUpdate(character.clone());
-  }, [character, update, onUpdate])
+  const cast = useCallback(
+    (cost: $SpellCost) => {
+      character.cast(cost);
+      update(character);
+      onUpdate(character.clone());
+    },
+    [character, update, onUpdate]
+  );
 
   const spellSlots = useSpellSlots(character, cast);
 
@@ -32,12 +35,10 @@ const SpellDisplay: FunctionComponent<$Props> = ({ character, onUpdate }) => {
             <th></th>
           </tr>
         </thead>
-        <tbody>
-          {spellSlots}
-        </tbody>
+        <tbody>{spellSlots}</tbody>
       </Table>
     </Content>
-  )
-}
+  );
+};
 
 export default SpellDisplay;

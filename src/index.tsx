@@ -8,9 +8,9 @@ import './infrastructure/style/bulmaswatch.cosmo.min.css';
 
 const routing = (
   <Router>
-    <App/>
+    <App />
   </Router>
-)
+);
 
 ReactDOM.render(routing, document.getElementById('root'));
 

@@ -1,11 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import {
-  NavbarBrand,
-  Navbar,
-  Container,
-  NavbarItem,
-  Content,
-} from 'bloomer';
+import { NavbarBrand, Navbar, Container, NavbarItem, Content } from 'bloomer';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList } from '@fortawesome/free-solid-svg-icons';
@@ -15,9 +9,14 @@ const Navigation: FunctionComponent = () => {
 
   return (
     <Navbar>
-      <Container isDisplay="flex" style={{alignItems: 'center', justifyContent: 'space-between'}}>
+      <Container
+        isDisplay="flex"
+        style={{ alignItems: 'center', justifyContent: 'space-between' }}
+      >
         <NavbarBrand isDisplay="inline-flex">
-          <NavbarItem onClick={() => history.push('/')}>Spellpoint Tracker</NavbarItem>
+          <NavbarItem onClick={() => history.push('/')}>
+            Spellpoint Tracker
+          </NavbarItem>
         </NavbarBrand>
         <Content isDisplay="inline-block" hasTextAlign="right">
           <NavbarItem onClick={() => history.push('/')}>
@@ -27,6 +26,6 @@ const Navigation: FunctionComponent = () => {
       </Container>
     </Navbar>
   );
-}
+};
 
 export default Navigation;
