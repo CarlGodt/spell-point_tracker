@@ -4,7 +4,7 @@ import './index.css';
 import App from './app/main/App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router } from 'react-router-dom';
-import './infrastructure/style/bulmaswatch.cosmo.min.css';
+import './lib/style/bulmaswatch.cosmo.min.css';
 
 const routing = (
   <Router>
