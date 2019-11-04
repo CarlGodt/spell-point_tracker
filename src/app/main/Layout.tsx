@@ -1,4 +1,4 @@
-import { Hero, HeroBody, HeroFooter, HeroHeader } from 'bloomer';
+import { Hero, HeroBody, HeroFooter, HeroHeader, Container } from 'bloomer';
 import React, { FunctionComponent, ReactNode } from 'react';
 import Navigation from '../navigation/Navigation';
 import styles from './layout.module.scss';
@@ -15,9 +15,13 @@ const Layout: FunctionComponent<$Props> = ({ body, footer }) => {
         <Navigation />
       </HeroHeader>
 
-      <HeroBody>{body}</HeroBody>
+      <HeroBody>
+        <Container>{body}</Container>
+      </HeroBody>
 
-      <HeroFooter>{footer}</HeroFooter>
+      <HeroFooter>
+        <Container>{footer}</Container>
+      </HeroFooter>
     </Hero>
   );
 };
