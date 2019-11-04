@@ -86,7 +86,7 @@ export default CLASSES;
 function createSpellpoints(divider: number): $SpellPointIndex {
   let table = {};
   for (let i = 1; i <= 20; i++) {
-    const index = Math.floor(i / divider);
+    const index = Math.ceil(i / divider);
     table = {
       [i]: SpellPoints[index],
       ...table
