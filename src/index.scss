@@ -11,3 +11,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  min-height: min-content;
+  flex-direction: column;
+
+  > section:last-child {
+    flex: 1;
+    display: flex;
+    overflow: auto;
+  }
+
+  @media screen and (max-width: 1024px) {
+    > section:last-child {
+      padding-top: 1.5rem !important;
+    }
+  }
+}

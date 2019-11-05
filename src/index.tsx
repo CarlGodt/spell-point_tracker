@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 import App from './app/main/App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router } from 'react-router-dom';
 import './lib/style/bulmaswatch.cosmo.min.css';
+import { ChatContextProvider } from './app/chat/ChatContext';
 
 const routing = (
-  <Router>
-    <App />
-  </Router>
+  <ChatContextProvider>
+    <Router>
+      <App />
+    </Router>
+  </ChatContextProvider>
 );
 
 ReactDOM.render(routing, document.getElementById('root'));

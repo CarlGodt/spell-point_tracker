@@ -17,7 +17,6 @@ import React, {
 import { useHistory } from 'react-router';
 import useCharacterRepository from '../../../domain/character/CharacterRepository';
 import Layout from '../../main/Layout';
-import styles from './characterCreator.module.scss';
 
 const CharacterCreator: FunctionComponent = () => {
   const [name, setName] = useState<string>('');
@@ -46,7 +45,7 @@ const CharacterCreator: FunctionComponent = () => {
           </Level>
         }
       />
-      <Section className={styles.section}>
+      <Section>
         <Field>
           <Label>Name</Label>
           <Control>

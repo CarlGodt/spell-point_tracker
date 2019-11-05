@@ -21,7 +21,6 @@ import { useHistory } from 'react-router';
 import Character from '../../../domain/character/Character';
 import useCharacterRepository from '../../../domain/character/CharacterRepository';
 import Layout from '../../main/Layout';
-import styles from './../create/characterCreator.module.scss';
 import CharacterListElement from './CharacterListElement';
 
 const CharacterList: FunctionComponent = () => {
@@ -69,7 +68,7 @@ const CharacterList: FunctionComponent = () => {
           </Level>
         }
       />
-      <Section className={styles.section}>
+      <Section>
         <Container>
           {character && (
             <Table isFullWidth>

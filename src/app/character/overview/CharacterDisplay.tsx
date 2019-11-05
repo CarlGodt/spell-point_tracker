@@ -4,23 +4,31 @@ import React, {
   useCallback,
   useEffect,
   useState,
+  ReactNode,
 } from 'react';
 import { useHistory, useParams } from 'react-router';
 import Character from '../../../domain/character/Character';
 import useCharacterRepository from '../../../domain/character/CharacterRepository';
+import ChatDisplay from '../../chat/ChatDisplay';
 import ClassDisplay from '../../class/ClassDisplay';
 import Layout from '../../main/Layout';
 import SpellDisplay from '../../spells/SpellDisplay';
-import styles from './characterDisplay.module.scss';
 import CharacterDetails from '../details/CharacterDetails';
 import CharacterHeader from '../header/CharacterHeader';
+import styles from './characterDisplay.module.scss';
 
-type $ActiveTab = 'INFO' | 'CLASS' | 'SPELL';
+type $ActiveTab = 'INFO' | 'CLASS' | 'SPELL' | 'ROLL';
 
 interface $Params {
   id: string;
   action: $ActiveTab;
 }
+
+const WithSection = ({ children }: { children: ReactNode }) => (
+  <Section>
+    <Container className={styles.contentContainer}>{children}</Container>
+  </Section>
+);
 
 const CharacterDisplay: FunctionComponent = () => {
   const { id, action } = useParams<$Params>();
@@ -62,23 +70,29 @@ const CharacterDisplay: FunctionComponent = () => {
               <Tab isActive={action === 'INFO'}>
                 <TabLink onClick={() => activateTab('INFO')}>Info</TabLink>
               </Tab>
+              <Tab isActive={action === 'ROLL'}>
+                <TabLink onClick={() => activateTab('ROLL')}>Dice</TabLink>
+              </Tab>
             </TabList>
           </Tabs>
         }
       />
-      <Section className={styles.section}>
-        <Container>
-          {action === 'INFO' && (
-            <CharacterDetails character={character} onUpdate={setCharacter} />
-          )}
-          {action === 'CLASS' && (
-            <ClassDisplay character={character} onUpdate={setCharacter} />
-          )}
-          {action === 'SPELL' && (
-            <SpellDisplay character={character} onUpdate={setCharacter} />
-          )}
-        </Container>
-      </Section>
+      {action === 'INFO' && (
+        <WithSection>
+          <CharacterDetails character={character} onUpdate={setCharacter} />
+        </WithSection>
+      )}
+      {action === 'CLASS' && (
+        <WithSection>
+          <ClassDisplay character={character} onUpdate={setCharacter} />
+        </WithSection>
+      )}
+      {action === 'SPELL' && (
+        <WithSection>
+          <SpellDisplay character={character} onUpdate={setCharacter} />
+        </WithSection>
+      )}
+      {action === 'ROLL' && <ChatDisplay author={character.getName()} />}
     </>
   );
 };

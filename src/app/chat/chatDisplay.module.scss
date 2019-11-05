@@ -1,0 +1,19 @@
+@import '~bulma/sass/utilities/_all.sass';
+
+.chatHistory {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  padding: 0 2rem 1rem 2rem;
+}
+
+.chatInput {
+  background-color: $dark;
+  padding-top: 1rem;
+  flex: unset !important;
+
+  > div {
+    flex: 1;
+  }
+}
