@@ -1,6 +1,7 @@
 import { $Entity } from '../../infrastructure/persistence/repository';
 import CLASSES, { $ClassName } from '../class/Classes';
 import { $SpellCost } from '../spell/SpellCost';
+import SpellPoints, { $SpellPoints } from '../spell/SpellPoints';
 
 export const MAX_CHARACTER_LEVEL = 20;
 
@@ -44,12 +45,24 @@ class Character implements $Entity {
     return level;
   }
 
-  public getMaxSpellPoints(): number {
-    let maxSpellPoints = 0;
+  public getCasterLevel(): $SpellPoints {
+    let casterLvl = 0;
     this.getClassesOrEmptyMap().forEach((value, key) => {
-      maxSpellPoints += CLASSES[key].spellPoints[value].spellPoints;
+      if (key !== $ClassName.WARLOCK) {
+        casterLvl += Math.floor(value / CLASSES[key].mc_divider);
+      }
     });
-    return maxSpellPoints;
+    return SpellPoints[casterLvl];
+  }
+
+  public getMaxSpellPoints(): number {
+    let spellPoints = this.getCasterLevel().spellPoints;
+    this.getClassesOrEmptyMap().forEach((value, key) => {
+      if (key === $ClassName.WARLOCK) {
+        spellPoints += CLASSES[key].spellPoints[value].spellPoints;
+      }
+    });
+    return spellPoints;
   }
 
   public getCurrentSpellPoints(): number {
