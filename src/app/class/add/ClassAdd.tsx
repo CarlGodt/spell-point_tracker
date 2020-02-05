@@ -21,10 +21,7 @@ import Character, {
   MAX_CHARACTER_LEVEL,
 } from '../../../domain/character/Character';
 import useCharacterRepository from '../../../domain/character/CharacterRepository';
-import CLASSES, {
-  $ClassName,
-  CLASS_NAMES,
-} from '../../../domain/class/Classes';
+import CLASSES, { $ClassName } from '../../../domain/class/Classes';
 import styles from './classAdd.module.scss';
 
 interface $Props {
@@ -45,7 +42,7 @@ const ClassAdd: FunctionComponent<$Props> = ({
 }) => {
   const { update } = useCharacterRepository();
 
-  const [klass, setKlass] = useState<$ClassName>(CLASS_NAMES[0]);
+  const [klass, setKlass] = useState<$ClassName>($ClassName.BARD);
   const [level, setLevel] = useState<number>(1);
 
   const levels = useMemo<Array<number>>(() => {
@@ -101,9 +98,9 @@ const ClassAdd: FunctionComponent<$Props> = ({
               value={klass}
               className={styles.classSelect}
             >
-              {CLASS_NAMES.map((className, key) => (
-                <option key={key} value={className}>
-                  {CLASSES[className].name}
+              {Object.entries($ClassName).map((className, i) => (
+                <option key={i} value={className}>
+                  {CLASSES[className.toString()].name}
                 </option>
               ))}
             </Select>
