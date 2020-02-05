@@ -98,9 +98,9 @@ const ClassAdd: FunctionComponent<$Props> = ({
               value={klass}
               className={styles.classSelect}
             >
-              {Object.entries($ClassName).map((className, i) => (
-                <option key={i} value={className}>
-                  {CLASSES[className.toString()].name}
+              {Object.keys($ClassName).map((key, i) => (
+                <option key={i} value={key}>
+                  {CLASSES[key].name}
                 </option>
               ))}
             </Select>

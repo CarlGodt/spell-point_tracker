@@ -52,7 +52,14 @@ class Character implements $Entity {
         casterLvl += Math.floor(value / CLASSES[key].mc_divider);
       }
     });
-    return SpellPoints[casterLvl];
+    if (SpellPoints[casterLvl]) {
+      return SpellPoints[casterLvl];
+    }
+    return {
+      spellPoints: 0,
+      level: 0,
+      maxSpellLevel: 0,
+    };
   }
 
   public getMaxSpellPoints(): number {
@@ -70,17 +77,17 @@ class Character implements $Entity {
   }
 
   public getMaxSpellSlotClass(): { slotLevel: number; classLevel: number } {
-    let maxSpellSlot = 0;
+    let maxSpellSlot = this.getCasterLevel().maxSpellLevel;
     let maxSpellSlotClass = {
-      slotLevel: 0,
-      classLevel: 0,
+      slotLevel: maxSpellSlot,
+      classLevel: this.getLevel(),
     };
     this.getClassesOrEmptyMap().forEach((value, key) => {
       if (CLASSES[key].spellPoints[value].maxSpellLevel > maxSpellSlot) {
         maxSpellSlot = CLASSES[key].spellPoints[value].maxSpellLevel;
         maxSpellSlotClass = {
           slotLevel: CLASSES[key].spellPoints[value].maxSpellLevel,
-          classLevel: value,
+          classLevel: this.getLevel(),
         };
       }
     });
