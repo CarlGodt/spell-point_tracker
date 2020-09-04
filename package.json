@@ -15,7 +15,7 @@
     "bulma": "^0.8.0",
     "dexie": "^2.0.4",
     "lint-staged": "^9.4.2",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
